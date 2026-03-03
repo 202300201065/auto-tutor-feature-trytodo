@@ -1,0 +1,84 @@
+<!--practice.wxml-->
+<view class="container">
+  <!-- 未登录状态 -->
+  <block wx:if="{{!isLoggedIn}}">
+    <view class="empty-state">
+      <t-icon name="user-circle" size="120rpx" color="#bbb" />
+      <view class="empty-text">请先登录</view>
+      <t-button theme="primary" size="medium" bindtap="goToLogin">去登录</t-button>
+    </view>
+  </block>
+
+  <!-- 已登录但未加入班级 -->
+  <block wx:elif="{{!classId}}">
+    <view class="empty-state">
+      <t-icon name="usergroup" size="120rpx" color="#bbb" />
+      <view class="empty-text">您还未加入班级</view>
+      <view class="empty-hint">请在“我的”页面加入班级后查看练习</view>
+    </view>
+  </block>
+
+  <!-- 已登录并加入班级 -->
+  <block wx:else>
+    <!-- 加载中 -->
+    <view wx:if="{{loading && practiceList.length === 0}}" class="loading-state">
+      <t-loading theme="circular" size="40rpx" />
+      <view class="loading-text">加载中...</view>
+    </view>
+
+    <!-- 练习列表 -->
+    <scroll-view 
+      wx:else
+      class="practice-scroll"
+      scroll-y
+      refresher-enabled
+      refresher-triggered="{{refreshing}}"
+      bindrefresherrefresh="onRefresh"
+    >
+      <!-- 无练习 -->
+      <view wx:if="{{practiceList.length === 0}}" class="empty-state">
+        <t-icon name="edit" size="120rpx" color="#bbb" />
+        <view class="empty-text">暂无练习</view>
+        <view class="empty-hint">老师还未发布任何练习</view>
+      </view>
+
+      <!-- 练习列表 -->
+      <view wx:else class="practice-list">
+        <view 
+          wx:for="{{practiceList}}" 
+          wx:key="id" 
+          class="practice-item"
+          data-id="{{item.id}}"
+          data-name="{{item.practiceName}}"
+          data-questionids="{{item.questionIdListStr}}"
+          data-endtime="{{item.endTime}}"
+          bindtap="handlePracticeClick"
+        >
+          <view class="practice-header">
+            <view class="practice-name">{{item.practiceName}}</view>
+            <view class="practice-status {{item.statusType}}" style="background: {{item.statusColor}}1A; color: {{item.statusColor}};">
+              <t-icon wx:if="{{item.statusType === 'completed'}}" name="check" size="24rpx" />
+              <text>{{item.statusText}}</text>
+            </view>
+          </view>
+          <view class="practice-info">
+            <view class="info-row">
+              <t-icon name="assignment" size="28rpx" color="#666" />
+              <text class="info-text">进度：{{item.completedCount || 0}}/{{item.totalCount}}</text>
+            </view>
+            <view class="info-row">
+              <t-icon name="time" size="28rpx" color="#666" />
+              <text class="info-text">截止：{{item.endTimeText || '无截止时间'}}</text>
+            </view>
+          </view>
+          <view class="practice-footer">
+            <text class="create-time">创建于 {{item.createTimeText}}</text>
+            <t-icon name="chevron-right" size="36rpx" color="#999" />
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </block>
+</view>
+
+<t-toast id="t-toast" />

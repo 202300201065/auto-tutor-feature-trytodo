@@ -1,0 +1,135 @@
+/**practice.wxss**/
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+/* 空状态 */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #666;
+  margin-top: 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #999;
+  text-align: center;
+}
+
+/* 加载状态 */
+.loading-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 16rpx;
+}
+
+/* 练习列表滚动区域 */
+.practice-scroll {
+  flex: 1;
+  height: 0;
+}
+
+/* 练习列表 */
+.practice-list {
+  padding: 24rpx;
+}
+
+.practice-item {
+  background-color: #fff;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.practice-item:active {
+  background-color: #f9f9f9;
+}
+
+/* 练习项头部 */
+.practice-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.practice-name {
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 16rpx;
+}
+
+.practice-status {
+  font-size: 24rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.practice-status.completed {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+/* 练习信息 */
+.practice-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+}
+
+.info-text {
+  font-size: 26rpx;
+  color: #666;
+  margin-left: 8rpx;
+}
+
+/* 练习项底部 */
+.practice-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.create-time {
+  font-size: 24rpx;
+  color: #999;
+}

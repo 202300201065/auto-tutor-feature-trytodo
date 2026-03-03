@@ -1,0 +1,74 @@
+<!--resource.wxml-->
+<view class="container">
+  <!-- 未登录状态 -->
+  <block wx:if="{{!isLoggedIn}}">
+    <view class="empty-state">
+      <t-icon name="user-circle" size="120rpx" color="#bbb" />
+      <view class="empty-text">请先登录</view>
+      <t-button theme="primary" size="medium" bindtap="goToLogin">去登录</t-button>
+    </view>
+  </block>
+
+  <!-- 已登录但未加入班级 -->
+  <block wx:elif="{{!classId}}">
+    <view class="empty-state">
+      <t-icon name="usergroup" size="120rpx" color="#bbb" />
+      <view class="empty-text">您还未加入班级</view>
+      <view class="empty-hint">请在“我的”页面加入班级后查看资源</view>
+    </view>
+  </block>
+
+  <!-- 已登录并加入班级 -->
+  <block wx:else>
+    <!-- 加载中 -->
+    <view wx:if="{{loading && resourceList.length === 0}}" class="loading-state">
+      <t-loading theme="circular" size="40rpx" />
+      <view class="loading-text">加载中...</view>
+    </view>
+
+    <!-- 资源列表 -->
+    <scroll-view 
+      wx:else
+      class="resource-scroll"
+      scroll-y
+      refresher-enabled
+      refresher-triggered="{{refreshing}}"
+      bindrefresherrefresh="onRefresh"
+    >
+      <!-- 无资源 -->
+      <view wx:if="{{resourceList.length === 0}}" class="empty-state">
+        <t-icon name="file" size="120rpx" color="#bbb" />
+        <view class="empty-text">暂无资源</view>
+        <view class="empty-hint">老师还未上传任何资源</view>
+      </view>
+
+      <!-- 资源列表 -->
+      <view wx:else class="resource-list">
+        <view 
+          wx:for="{{resourceList}}" 
+          wx:key="id" 
+          class="resource-item"
+          data-file-url="{{item.fileUrl}}"
+          data-file-name="{{item.fileName}}"
+          bindtap="handleDownload"
+        >
+          <view class="resource-icon" style="background: {{item.fileIconColor}}1A;">
+            <t-icon name="{{item.fileIcon}}" size="48rpx" color="{{item.fileIconColor}}" />
+          </view>
+          <view class="resource-info">
+            <view class="resource-name">{{item.fileName}}</view>
+            <view class="resource-meta">
+              <text class="resource-size">{{item.fileSizeText}}</text>
+              <text class="resource-time">{{item.uploadTimeText}}</text>
+            </view>
+          </view>
+          <view class="resource-action">
+            <t-icon name="download" size="40rpx" color="#0052d9" />
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </block>
+</view>
+
+<t-toast id="t-toast" />
